@@ -1,4 +1,3 @@
-// CreateTask.jsx
 import React, { useState, useContext } from "react";
 import { getFromStorage } from "../../utils/localStorage";
 import { AuthContext } from "../../context/AuthProvider";
@@ -24,10 +23,10 @@ const CreateTask = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const { employees } = getFromStorage();
     const input = assignTo.trim().toLowerCase();
+    const updatedEmployees = [...userData.employees];
 
-    const employeeIndex = employees.findIndex(
+    const employeeIndex = updatedEmployees.findIndex(
       (emp) =>
         emp.id.toLowerCase() === input ||
         emp.name.trim().toLowerCase() === input
@@ -48,14 +47,13 @@ const CreateTask = () => {
       overdue: false,
     };
 
-    // Push new task
-    employees[employeeIndex].tasks.push(newTask);
-    localStorage.setItem("employees", JSON.stringify(employees));
+    updatedEmployees[employeeIndex].tasks.push(newTask);
 
-    // ✅ Update context so AllTasks.jsx updates immediately
-    setUserData({ ...userData, employees });
+    localStorage.setItem("employees", JSON.stringify(updatedEmployees));
 
-    setMessage(`✅ Task assigned to ${employees[employeeIndex].name}`);
+    setUserData({ ...userData, employees: updatedEmployees });
+
+    setMessage(`✅ Task assigned to ${updatedEmployees[employeeIndex].name}`);
     resetForm();
   };
 
