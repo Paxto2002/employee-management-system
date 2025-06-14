@@ -6,6 +6,7 @@ import AdminDashboard from "./components/Dashboard/AdminDashboard";
 import { AuthContext } from "./context/AuthProvider";
 
 const App = () => {
+  localStorage.clear();
   const [user, setUser] = useState(null);
   const { userData } = useContext(AuthContext);
   const navigate = useNavigate();
